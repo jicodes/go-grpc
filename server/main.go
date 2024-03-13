@@ -23,6 +23,24 @@ func (s *server) Add(ctx context.Context, in *pb.CalculationRequest) (*pb.Calcul
 	}, nil
 }
 
+func (s *server) Subtract(
+	ctx context.Context,
+	in *pb.CalculationRequest,
+) (*pb.CalculationResponse, error) {
+	return &pb.CalculationResponse{
+		Result: in.A - in.B,
+	}, nil
+}
+
+func (s *server) Multiply(
+	ctx context.Context,
+	in *pb.CalculationRequest,
+) (*pb.CalculationResponse, error) {
+	return &pb.CalculationResponse{
+		Result: in.A * in.B,
+	}, nil
+}
+
 func (s *server) Divide(ctx context.Context, in *pb.CalculationRequest) (*pb.CalculationResponse, error) {
 	if in.B == 0 {
 		return nil, status.Errorf(
@@ -33,6 +51,16 @@ func (s *server) Divide(ctx context.Context, in *pb.CalculationRequest) (*pb.Cal
 	}, nil
 }
 
+func (s *server) Sum(ctx context.Context, in *pb.NumbersRequest) (*pb.CalculationResponse, error) {
+	var sum int64
+	for _, number := range in.Numbers {
+		sum += number
+	}
+
+	return &pb.CalculationResponse{
+		Result: sum,
+	}, nil
+}
 
 func main() {
 	// Note that gRPC only works with HTTP/2, that's why we use TCP as the transport layer.
