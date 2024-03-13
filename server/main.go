@@ -6,7 +6,9 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 
 	"github.com/jicodes/go-grpc/pb"
 )
@@ -20,6 +22,17 @@ func (s *server) Add(ctx context.Context, in *pb.CalculationRequest) (*pb.Calcul
 		Result: in.A + in.B,
 	}, nil
 }
+
+func (s *server) Divide(ctx context.Context, in *pb.CalculationRequest) (*pb.CalculationResponse, error) {
+	if in.B == 0 {
+		return nil, status.Errorf(
+			codes.InvalidArgument, "Cannot divide by zero")
+	}
+	return &pb.CalculationResponse{
+		Result: in.A / in.B,
+	}, nil
+}
+
 
 func main() {
 	// Note that gRPC only works with HTTP/2, that's why we use TCP as the transport layer.
