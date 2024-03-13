@@ -1,4 +1,4 @@
-# gRPC serive in Go
+# gRPC service in Go
 
 Install protobuf using brew
 
