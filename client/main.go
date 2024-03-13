@@ -2,14 +2,15 @@ package main
 
 import (
 	"context"
-	"crypto/tls"
+	// "crypto/tls"
 	"flag"
 	"fmt"
 	"log"
 	"time"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials"
+	// "google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/credentials/insecure"
 
 	"github.com/jicodes/go-grpc/pb"
 )
@@ -21,10 +22,15 @@ func main() {
 	)
 	flag.Parse()
 
-	creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
+	// Use tls for production
+	// creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: false})
+	// opts := []grpc.DialOption{
+	// 	grpc.WithTransportCredentials(creds),
+	// }
 
+	// Disable tls for local testing
 	opts := []grpc.DialOption{
-		grpc.WithTransportCredentials(creds),
+    grpc.WithTransportCredentials(insecure.NewCredentials()),
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
