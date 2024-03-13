@@ -40,7 +40,7 @@ brew install grpcui
 ```
 
 Test
-
+If you're wanting to connect locally, you'll need to use the -plaintext flag with both grpcui and grpcurl
 ```sh
 grpcui --plaintext 127.0.0.1:8080
 ```
